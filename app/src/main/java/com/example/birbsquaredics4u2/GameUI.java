@@ -48,7 +48,8 @@ public class GameUI extends View {
 
         super(context);
         Resources res = context.getResources();
-
+        MathUI test = new MathUI();
+        test.randomGenerator();
         //create bitmaps
         bitmap = BitmapFactory.decodeResource(res, R.drawable.test_image_2);
 
@@ -84,21 +85,18 @@ public class GameUI extends View {
     @Override
     protected void onDraw(Canvas canvas)
     {
+        Bitmap[] array = new Bitmap[1];
+        array[0] = pipeTop;
+
 
         //topRectOne - topmost rectangle
-        /*topRectOne = new Rect((int)changingX + 104, 0, (int)changingX + 246, pipeOneHeight);
+        topRectOne = new Rect((int)changingX + 104, 0, (int)changingX + 246, pipeOneHeight);
         topRectTwo = new Rect((int)changingX + 68, pipeOneHeight, (int)changingX + 282, pipeOneHeight+gap);
         midRect = new Rect((int)changingX + 70, trueHeight/2 - gap/2, (int)changingX + 280, trueHeight/2 + gap + gap/2);
-        botRectOne = new Rect((int)changingX + 68, )
-        Log.d("pipeOneHeight", Integer.toString(pipeOneHeight));*/
-
-        //draw pipes
-        topRectOne = new Rect((int)changingX + 68, 373, (int)changingX + 282, 450);
-        topRectTwo = new Rect((int)changingX + 104, 0, (int)changingX + 246, 373);
+        botRectOne = new Rect((int)changingX + 68, trueHeight - pipeOneHeight-(gap/2)+27, (int)changingX + 282, trueHeight - pipeOneHeight+gap);
+        botRectTwo = new Rect((int)changingX + 104, trueHeight - pipeOneHeight + gap, (int)changingX + 246, height);
         birdRect = new Rect((int)getWidth()/2 + 5, (int)changingY, (int)getWidth()/2 + 69, (int)changingY + 69);
-        midRect = new Rect((int)changingX + 70, 771, (int)(changingX + 280), 933);
-        botRectOne = new Rect((int)changingX + 68, 1252, (int)changingX + 282, 1329);
-        botRectTwo = new Rect((int)changingX + 104, 1329, (int)changingX + 246, 1710);
+        Log.d("pipeOneHeight", Integer.toString(pipeOneHeight));
 
         //if true, collision happened
         if (checkState)
@@ -128,7 +126,7 @@ public class GameUI extends View {
         Log.d("pipeHeight", Integer.toString((getHeight()/2) - 850));
 
         canvas.drawColor(Color.WHITE);
-        canvas.drawBitmap(bitmap, (getWidth()/2), changingY, null);
+
         Paint paint = new Paint();
         paint.setColor(Color.TRANSPARENT);
 
@@ -139,6 +137,7 @@ public class GameUI extends View {
         canvas.drawRect(botRectOne, paint);
         canvas.drawRect(botRectTwo, paint);
 
+        canvas.drawBitmap(bitmap, (getWidth()/2), changingY, null);
         canvas.drawBitmap(pipeTop, changingX, (float)(getHeight()/2 - 850), null);
         canvas.drawBitmap(pipeMid, changingX + 70, (float)(getHeight()/2) - 100, null);
         canvas.drawBitmap(pipeBot, changingX, (float)(getHeight()/2) + 400, null);
@@ -161,7 +160,9 @@ public class GameUI extends View {
             changingX = 1000;
         }
 
+        //check if bird dies
         checkState = checkState(topRectOne, topRectTwo, midRect, botRectOne, botRectTwo, birdRect, changingY, trueHeight);
+
         if (changingX == 460.0)
         {
             i++;
@@ -210,7 +211,6 @@ public class GameUI extends View {
         {
             return true;
         }
-
 
         return false;
     }
